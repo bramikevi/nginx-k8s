@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-spring-boot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-world-spring-boot
+  template:
+    metadata:
+      labels:
+        app: hello-world-spring-boot
+    spec:
+      containers:
+        - name: hello-world-spring-boot
+          image: hello-world-spring-boot:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql-service:3306/mydatabase
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: rootpassword
+            - name: SPRING_RABBITMQ_HOST
+              value: rabbitmq
+            - name: SPRING_RABBITMQ_PORT
+              value: "5672"
+            - name: SPRING_RABBITMQ_USERNAME
+              value: guest
+            - name: SPRING_RABBITMQ_PASSWORD
+              value: guest
+            - name: SPRING_RABBITMQ_TEMPLATE_EXCHANGE
+              value: exchange-name
+            - name: SPRING_RABBITMQ_TEMPLATE_ROUTING_KEY
+              value: routing-key

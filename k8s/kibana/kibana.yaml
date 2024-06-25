@@ -1,0 +1,27 @@
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: kibana
+spec:
+  version: 7.15.2
+  count: 1
+  elasticsearchRef:
+    name: elasticsearch
+  podTemplate:
+    spec:
+      containers:
+        - name: kibana
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: 0.5
+            limits:
+              memory: 2Gi
+              cpu: 1
+          env:
+            - name: ELASTICSEARCH_URL
+              value: "http://elasticsearch:9200"  # Użyj nazwy usługi Elasticsearch
+            - name: ELASTICSEARCH_USERNAME
+              value: "your_username"  # Ustaw nazwę użytkownika
+            - name: ELASTICSEARCH_PASSWORD
+              value: "your_password"  # Ustaw hasło użytkownika
